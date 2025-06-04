@@ -9,15 +9,19 @@ Authentication service with local and OAuth (Google) authentication support.
 - Password reset functionality
 - Email verification
 - JWT-based authentication
+- Role-based access control (RBAC)
+- Predefined roles and permissions
 - Rate limiting
 - CORS support
 
 ## API Documentation
 
-The project includes HTTP request files (`api.http`) that serve as documentation for the available endpoints. These files can be used with REST Client extensions in VS Code or other compatible IDEs to test the API endpoints directly.
+The project includes:
 
-- `auth.api.http`: Contains authentication-related endpoints
-- `app.api.http`: Contains general application endpoints
+- Swagger UI documentation available at `/api-docs`
+- HTTP request files (`api.http`) in the `src/interfaces/routes` directory for testing endpoints:
+  - `auth.api.http`: Authentication-related endpoints
+  - `app.api.http`: General application endpoints
 
 ## Prerequisites
 
@@ -49,8 +53,8 @@ The project includes HTTP request files (`api.http`) that serve as documentation
    docker exec -it authcore_mysql_db mysql -uroot -p
    ```
 
-   > [!IMPORTANT]
-   > When prompted, enter the root password from your .env file.
+> [!IMPORTANT]
+> When prompted, enter the root password from your .env file.
 
 6. Once inside MySQL, execute these commands:
 
@@ -59,8 +63,8 @@ The project includes HTTP request files (`api.http`) that serve as documentation
    FLUSH PRIVILEGES;
    ```
 
-   > [!IMPORTANT]
-   > Remember to change **MYSQL_USER** for the user you're going to use.
+> [!IMPORTANT]
+> Remember to change **MYSQL_USER** for the user you're going to use.
 
 7. Exit MySQL:
 
@@ -68,20 +72,37 @@ The project includes HTTP request files (`api.http`) that serve as documentation
    exit
    ```
 
-8. Run the Prisma migrations:
+8. Run the Prisma migrations and seed the database:
 
    ```bash
+   pnpm prisma:generate
    pnpm prisma:migrate:dev
+   pnpm prisma:seed
    ```
+
+## Available Scripts
+
+- `pnpm dev`: Start development server
+- `pnpm build`: Build the project
+- `pnpm start`: Start production server
+- `pnpm docker:build`: Build Docker containers
+- `pnpm docker:dev`: Start Docker containers
+- `pnpm docker:down`: Stop Docker containers
+- `pnpm docker:logs`: View Docker container logs
+- `pnpm prisma:generate`: Generate Prisma client
+- `pnpm prisma:migrate:dev`: Run database migrations
+- `pnpm prisma:migrate:reset`: Reset database
+- `pnpm prisma:migrate:rollback`: Rollback last migration
+- `pnpm prisma:seed`: Seed the database with initial data
 
 ## Environment Variables
 
 #### Application Settings
 
-- `PORT`: Server port number
+- `PORT`: Server port number (default: 8000)
 
   ```
-  PORT="3000"
+  PORT="8000"
   ```
 
 - `NODE_ENV`: Environment (development/production)
@@ -90,10 +111,16 @@ The project includes HTTP request files (`api.http`) that serve as documentation
   NODE_ENV="development"
   ```
 
-- `APP_NAME`: Name of your application (used in email templates and UI)
+- `APP_NAME`: Name of your application
 
   ```
   APP_NAME="AuthCore"
+  ```
+
+- `COMPOSE_PROJECT_NAME`: Docker Compose project name
+
+  ```
+  COMPOSE_PROJECT_NAME="authcore_server"
   ```
 
 - `ALLOWED_ORIGINS`: Comma-separated list of allowed origins for CORS
@@ -107,9 +134,57 @@ The project includes HTTP request files (`api.http`) that serve as documentation
   API_URL="http://localhost:8000/api/v1"
   ```
 
-#### Email Configuration
+#### Database Configuration
 
-These variables are used for sending verification emails and password reset emails:
+- `DATABASE_URL`: MySQL connection URL
+
+  ```
+  DATABASE_URL="mysql://user:password@localhost:3306/database"
+  ```
+
+- `MYSQL_USER`: MySQL user
+
+  ```
+  MYSQL_USER="user"
+  ```
+
+- `MYSQL_PASSWORD`: MySQL password
+
+  ```
+  MYSQL_PASSWORD="password"
+  ```
+
+- `MYSQL_ROOT_PASS`: MySQL root password
+
+  ```
+  MYSQL_ROOT_PASS="root_password"
+  ```
+
+- `MYSQL_DB`: MySQL database name
+
+  ```
+  MYSQL_DB="authcore"
+  ```
+
+- `MYSQL_PORT`: MySQL port (default: 3306)
+  ```
+  MYSQL_PORT="3306"
+  ```
+
+#### JWT Configuration
+
+- `JWT_SECRET`: Secret key for access tokens
+
+  ```
+  JWT_SECRET="your-jwt-secret"
+  ```
+
+- `JWT_REFRESH_SECRET`: Secret key for refresh tokens
+  ```
+  JWT_REFRESH_SECRET="your-jwt-refresh-secret"
+  ```
+
+#### Email Configuration
 
 - `SMTP_HOST`: SMTP server host
 
@@ -123,10 +198,10 @@ These variables are used for sending verification emails and password reset emai
   SMTP_PORT="587"
   ```
 
-- `SMTP_SECURE`: Whether to use TLS for SMTP connection (true for port 465, false for port 587)
+- `SMTP_SECURE`: Whether to use TLS (true for port 465, false for port 587)
 
   ```
-  SMTP_SECURE="true"
+  SMTP_SECURE="false"
   ```
 
 - `SMTP_USER`: SMTP username/email
@@ -136,14 +211,11 @@ These variables are used for sending verification emails and password reset emai
   ```
 
 - `SMTP_PASSWORD`: SMTP password or app-specific password
-
   ```
   SMTP_PASSWORD="your-password"
   ```
 
 #### Google OAuth
-
-Required if you want to enable Google authentication:
 
 - `GOOGLE_CLIENT_ID`: Google OAuth client ID
 
@@ -159,8 +231,36 @@ Required if you want to enable Google authentication:
 
 - `GOOGLE_CALLBACK_URL`: OAuth callback URL
   ```
-  GOOGLE_CALLBACK_URL="http://localhost:3000/auth/google/callback"
+  GOOGLE_CALLBACK_URL="http://localhost:8000/api/v1/auth/google/callback"
   ```
+
+## Predefined Roles and Permissions
+
+The system comes with the following predefined roles:
+
+1. **SUPER_ADMIN**
+
+   - Full system access
+   - All permissions
+
+2. **ADMIN**
+
+   - Elevated access
+   - Most permissions except system configuration
+
+3. **MANAGER**
+
+   - Resource management capabilities
+   - Create, read, update, manage, and approve permissions
+
+4. **USER**
+
+   - Basic access
+   - Read-only permissions
+
+5. **AUDITOR**
+   - System audit capabilities
+   - Read and audit permissions
 
 ## Contributing
 
