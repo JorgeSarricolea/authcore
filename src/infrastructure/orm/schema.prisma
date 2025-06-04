@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.1.x"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password      String?
+  name          String?
+  last_name     String?
+  google_id     String?   @unique
+  email_verified Boolean  @default(false)
+  email_verification_code String?   @unique
+  email_verification_expires DateTime?
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+  reset_token   String?   @unique
+  reset_token_exp DateTime?
+  roles         UserRole[]
+}
+
+model Role {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  description String?
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  users       UserRole[]
+  permissions RolePermission[]
+}
+
+model Permission {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  description String?
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  roles       RolePermission[]
+}
+
+model UserRole {
+  user        User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id     String
+  role        Role      @relation(fields: [role_id], references: [id], onDelete: Cascade)
+  role_id     String
+  created_at  DateTime  @default(now())
+
+  @@id([user_id, role_id])
+}
+
+model RolePermission {
+  role        Role      @relation(fields: [role_id], references: [id], onDelete: Cascade)
+  role_id     String
+  permission  Permission @relation(fields: [permission_id], references: [id], onDelete: Cascade)
+  permission_id String
+  created_at  DateTime  @default(now())
+
+  @@id([role_id, permission_id])
+}
