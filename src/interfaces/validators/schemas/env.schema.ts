@@ -44,6 +44,14 @@ export class EnvSchema {
     // JWT
     JWT_SECRET: z.string(),
     JWT_REFRESH_SECRET: z.string(),
+
+    // Google OAuth
+    GOOGLE_CLIENT_ID: z.string(),
+    GOOGLE_CLIENT_SECRET: z.string(),
+    GOOGLE_CALLBACK_URL: z
+      .string()
+      .url()
+      .default("http://localhost:8000/api/v1/auth/google/callback"),
   });
 
   private static readonly developmentSchema = this.schema.extend({
