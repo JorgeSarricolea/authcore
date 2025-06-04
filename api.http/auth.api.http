@@ -19,8 +19,20 @@ Content-Type: application/json
 
 {
   "email": "jjorgesarricolea18@gmail.com",
-  "password": "Passw0rd!"
+  "password": null
 }
+
+# ------------------------------------------------------------
+
+### GET /auth/google
+# Description: Initiates Google OAuth flow by redirecting to Google's consent screen. IMPORTANT: Try on browser.
+GET http://localhost:8000/api/v1/auth/google
+
+# ------------------------------------------------------------
+
+### GET /auth/google/callback
+# Description: Callback URL for Google OAuth. Handles the OAuth response and creates/updates user.
+GET http://localhost:8000/api/v1/auth/google/callback?code=4/0AfJohXn...
 
 # ------------------------------------------------------------
 
