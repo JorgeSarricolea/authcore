@@ -4,8 +4,6 @@ import express from "express";
 
 import Config from "@/infrastructure/config/index";
 import { globalRateLimiter } from "@/interfaces/middlewares/rate-limiter.middleware";
-import swaggerJsdoc from "swagger-jsdoc";
-import swaggerUi from "swagger-ui-express";
 import {
   errorHandler,
   setupUncaughtExceptionHandler,
@@ -37,14 +35,6 @@ const MAIN_ENDPOINT = `/api/v${Config.apiVersion}`;
 // Routes
 app.use(MAIN_ENDPOINT, appRoutes);
 app.use(MAIN_ENDPOINT, authRoutes);
-
-// Swagger documentation
-const swaggerSpec = swaggerJsdoc(Config.swaggerConfig);
-app.use(
-  Config.swaggerMiddleware.path,
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerSpec)
-);
 
 // Error handling middleware
 app.use(errorHandler);
