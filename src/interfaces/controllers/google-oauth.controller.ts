@@ -1,23 +1,25 @@
 import { Request, Response } from "express";
 import GoogleOAuthService from "@/infrastructure/external-services/auth/google-oauth.service";
-import AppGoogleOAuthService from "@/application/services/auth/google-oauth.service";
 import UserRepository from "@/infrastructure/orm/repositories/user.prisma.repository";
 import RoleRepository from "@/infrastructure/orm/repositories/role.prisma.repository";
 import JwtService from "@/infrastructure/external-services/auth/jwt.service";
 import CookieService from "@/infrastructure/external-services/auth/cookie.service";
 import AppException from "@/shared/utils/exception.util";
+import { GoogleAuthUseCase } from "@/application/use-cases/auth/google-auth.use-case";
+import MailService from "@/infrastructure/external-services/mail/mail.service";
 
 export default class GoogleOAuthController {
   private googleOAuthService: GoogleOAuthService;
-  private appGoogleOAuthService: AppGoogleOAuthService;
+  private googleAuthUseCase: GoogleAuthUseCase;
   private jwtService: JwtService;
 
   constructor() {
     this.googleOAuthService = new GoogleOAuthService();
     const userRepository = new UserRepository();
     const roleRepository = new RoleRepository();
-    this.appGoogleOAuthService = new AppGoogleOAuthService(
+    this.googleAuthUseCase = new GoogleAuthUseCase(
       userRepository,
+      MailService,
       roleRepository
     );
     this.jwtService = new JwtService();
@@ -59,14 +61,8 @@ export default class GoogleOAuthController {
         access_token
       );
 
-      // Find or create user
-      const user = await this.appGoogleOAuthService.findOrCreateGoogleUser({
-        google_id: googleUser.id,
-        email: googleUser.email,
-        first_name: googleUser.given_name,
-        last_name: googleUser.family_name,
-        email_verified: googleUser.verified_email,
-      });
+      // Find or create user using our new use case
+      const user = await this.googleAuthUseCase.execute(googleUser);
 
       // Generate JWT tokens
       const tokenPayload = {
