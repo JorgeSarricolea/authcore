@@ -1,0 +1,4 @@
+### Health Check
+# Description: Checks if the server is running and returns a 200 status code.
+GET http://localhost:8000/api/v1/app/health-check
+Accept: application/json
