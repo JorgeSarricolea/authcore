@@ -16,12 +16,10 @@ Authentication service with local and OAuth (Google) authentication support.
 
 ## API Documentation
 
-The project includes:
+The project includes HTTP request files (`api.http`) in the `src/interfaces/routes` directory for testing endpoints:
 
-- Swagger UI documentation available at `/api-docs`
-- HTTP request files (`api.http`) in the `src/interfaces/routes` directory for testing endpoints:
-  - `auth.api.http`: Authentication-related endpoints
-  - `app.api.http`: General application endpoints
+- `auth.api.http`: Authentication-related endpoints
+- `app.api.http`: General application endpoints
 
 ## Prerequisites
 
@@ -220,19 +218,49 @@ The project includes:
 - `GOOGLE_CLIENT_ID`: Google OAuth client ID
 
   ```
-  GOOGLE_CLIENT_ID="your-google-client-id"
+  GOOGLE_CLIENT_ID="your-client-id"
   ```
 
 - `GOOGLE_CLIENT_SECRET`: Google OAuth client secret
 
   ```
-  GOOGLE_CLIENT_SECRET="your-google-client-secret"
+  GOOGLE_CLIENT_SECRET="your-client-secret"
   ```
 
 - `GOOGLE_CALLBACK_URL`: OAuth callback URL
   ```
   GOOGLE_CALLBACK_URL="http://localhost:8000/api/v1/auth/google/callback"
   ```
+
+### Setting up Google OAuth Credentials
+
+To obtain the Google OAuth credentials, follow these steps:
+
+1. Go to the [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project or select an existing one
+3. Navigate to "APIs & Services" > "Credentials"
+4. Click on "Create Credentials" and select "OAuth client ID"
+5. Select "Web application" as the application type
+6. Add a name for your OAuth client
+7. Add authorized JavaScript origins:
+   ```
+   http://localhost:8000
+   ```
+8. Add authorized redirect URIs:
+   ```
+   http://localhost:8000/api/v1/auth/google/callback
+   ```
+9. Click "Create"
+10. Copy the generated Client ID and Client Secret
+11. Update your `.env` file with these values:
+    ```
+    GOOGLE_CLIENT_ID="your-client-id"
+    GOOGLE_CLIENT_SECRET="your-client-secret"
+    GOOGLE_CALLBACK_URL="http://localhost:8000/api/v1/auth/google/callback"
+    ```
+
+> [!NOTE]
+> Make sure to enable the Google+ API in your Google Cloud Console project before using OAuth.
 
 ## Predefined Roles and Permissions
 
