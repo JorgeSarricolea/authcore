@@ -1,0 +1,4 @@
+echo "Running Linting..."
+pnpm run lint || { echo "Linting failed. Fix the issues and try again."; exit 1; }
+
+echo "All checks passed. Proceeding with push." 
