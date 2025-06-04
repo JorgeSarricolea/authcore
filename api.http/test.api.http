@@ -1,0 +1,5 @@
+### GET /test/protected
+# Description: Protected route that requires authentication and email verification.
+GET http://localhost:8000/api/v1/test/protected
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsIn...
+
