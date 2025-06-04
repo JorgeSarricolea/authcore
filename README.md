@@ -20,6 +20,7 @@ The project includes HTTP request files (`api.http`) in the `src/interfaces/rout
 
 - `auth.api.http`: Authentication-related endpoints
 - `app.api.http`: General application endpoints
+- `test.api.http`: Test endpoints for protected routes
 
 ## Prerequisites
 

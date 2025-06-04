@@ -100,5 +100,3 @@ Content-Type: application/json
 # Description: Refreshes the user's access token.
 POST http://localhost:8000/api/v1/auth/refresh-token
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsIn...
-
-
