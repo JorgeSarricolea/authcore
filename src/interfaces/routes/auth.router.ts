@@ -10,6 +10,7 @@ import { resetPasswordSchema } from "@/interfaces/validators/schemas/user/reset-
 import { sendVerificationCodeSchema } from "@/interfaces/validators/schemas/user/send-verification-code.schema";
 import { signupUserSchema } from "@/interfaces/validators/schemas/user/signup.user.schema";
 import { verifyEmailSchema } from "@/interfaces/validators/schemas/user/verify-email.schema";
+import GoogleOAuthController from "../controllers/google-oauth.controller";
 
 class AuthRouter extends BaseRouter<AuthController> {
   constructor() {
@@ -61,6 +62,18 @@ class AuthRouter extends BaseRouter<AuthController> {
       authMiddleware,
       rateLimiter(RateLimitLevel.LOW),
     ]);
+
+    const googleOAuthController = new GoogleOAuthController();
+
+    // Google OAuth routes
+    this.get(
+      "/google",
+      googleOAuthController.initiateGoogleAuth.bind(googleOAuthController)
+    );
+    this.get(
+      "/google/callback",
+      googleOAuthController.handleGoogleCallback.bind(googleOAuthController)
+    );
   }
 }
 
