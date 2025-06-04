@@ -52,11 +52,11 @@ export default class ApiResponseUtil {
       error instanceof AppException
         ? error
         : new AppException(
-            error instanceof Error
-              ? error.message
-              : "An unexpected error occurred",
-            error instanceof Error ? 500 : 500
-          );
+          error instanceof Error
+            ? error.message
+            : "An unexpected error occurred",
+          error instanceof Error ? 500 : 500
+        );
 
     const response: ApiResponseData<null> = {
       success: false,

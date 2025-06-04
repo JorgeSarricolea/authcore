@@ -10,10 +10,10 @@ export class EmailVerifiedTemplate extends EmailTemplate {
       <mj-section padding-bottom="${theme.spacing.normal}">
         <mj-column>
           <mj-text font-size="${
-            theme.typography.fontSize.large
-          }" font-weight="bold" align="center" color="${
-      theme.colors.primary.main
-    }">
+  theme.typography.fontSize.large
+}" font-weight="bold" align="center" color="${
+  theme.colors.primary.main
+}">
             ¡Correo electrónico verificado!
           </mj-text>
           <mj-text align="center" padding-top="${theme.spacing.normal}">
@@ -21,8 +21,8 @@ export class EmailVerifiedTemplate extends EmailTemplate {
           </mj-text>
           <mj-text align="center" padding-top="${theme.spacing.normal}">
             Ahora puedes disfrutar de todas las funcionalidades de ${
-              env.appName
-            }.
+  env.appName
+}.
           </mj-text>
           <mj-button href="${this.buildUrl("/login", {})}" 
             align="center" 
@@ -32,10 +32,10 @@ export class EmailVerifiedTemplate extends EmailTemplate {
             Iniciar sesión
           </mj-button>
           <mj-text align="center" color="${
-            theme.colors.text.secondary
-          }" font-size="${theme.typography.fontSize.small}" padding-top="${
-      theme.spacing.normal
-    }">
+  theme.colors.text.secondary
+}" font-size="${theme.typography.fontSize.small}" padding-top="${
+  theme.spacing.normal
+}">
             Si no solicitaste esta verificación, por favor contacta a soporte.
           </mj-text>
         </mj-column>

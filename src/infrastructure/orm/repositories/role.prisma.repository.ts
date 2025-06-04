@@ -1,6 +1,6 @@
-import { PrismaClient } from "@prisma/client";
-import { IRoleRepository } from "@/domain/repositories/role.repository";
-import { Role } from "@/domain/entities/role.entity";
+import { PrismaClient } from '@prisma/client';
+import { IRoleRepository } from '@/domain/repositories/role.repository';
+import { Role } from '@/domain/entities/role.entity';
 
 export default class RoleRepository implements IRoleRepository {
   private prisma: PrismaClient;
@@ -50,10 +50,9 @@ export default class RoleRepository implements IRoleRepository {
   }
 
   async update(id: string, data: Partial<Role>): Promise<Role> {
-    const { permissions, ...updateData } = data;
     const role = await this.prisma.role.update({
       where: { id },
-      data: updateData,
+      data,
       include: { permissions: true },
     });
     return this.mapToEntity(role);
@@ -65,7 +64,7 @@ export default class RoleRepository implements IRoleRepository {
 
   async assignPermissions(
     roleId: string,
-    permissionIds: string[]
+    permissionIds: string[],
   ): Promise<Role> {
     const role = await this.prisma.role.update({
       where: { id: roleId },
@@ -86,7 +85,7 @@ export default class RoleRepository implements IRoleRepository {
 
   async removePermissions(
     roleId: string,
-    permissionIds: string[]
+    permissionIds: string[],
   ): Promise<Role> {
     const role = await this.prisma.role.update({
       where: { id: roleId },

@@ -15,36 +15,36 @@ export class VerificationEmailTemplate extends EmailTemplate {
       <mj-section padding-bottom="${theme.spacing.normal}">
         <mj-column>
           <mj-text font-size="${
-            theme.typography.fontSize.large
-          }" font-weight="bold" align="center" color="${
-      theme.colors.primary.main
-    }">
+  theme.typography.fontSize.large
+}" font-weight="bold" align="center" color="${
+  theme.colors.primary.main
+}">
             ¡Bienvenido a ${env.appName}!
           </mj-text>
           <mj-text align="center" padding-top="${theme.spacing.normal}">
             Tu código de verificación es:
           </mj-text>
           <mj-text font-size="${
-            theme.typography.fontSize.xlarge
-          }" font-weight="bold" align="center" color="${
-      theme.colors.primary.light
-    }" padding="${theme.spacing.small} ${theme.spacing.large}">
+  theme.typography.fontSize.xlarge
+}" font-weight="bold" align="center" color="${
+  theme.colors.primary.light
+}" padding="${theme.spacing.small} ${theme.spacing.large}">
             ${data.code}
           </mj-text>
           <mj-text align="center" padding-top="${theme.spacing.normal}">
             Haz clic en el botón para verificar tu correo electrónico:
           </mj-text>
           <mj-button href="${this.buildUrl("/verify-email", {
-            code: data.code,
-            email: data.email,
-          })}" align="center" padding="${theme.spacing.normal}">
+    code: data.code,
+    email: data.email,
+  })}" align="center" padding="${theme.spacing.normal}">
             Verificar correo electrónico
           </mj-button>
           <mj-text align="center" color="${
-            theme.colors.text.secondary
-          }" font-size="${theme.typography.fontSize.small}" padding-top="${
-      theme.spacing.normal
-    }">
+  theme.colors.text.secondary
+}" font-size="${theme.typography.fontSize.small}" padding-top="${
+  theme.spacing.normal
+}">
             Este código expirará en 60 minutos.
           </mj-text>
         </mj-column>

@@ -1,12 +1,11 @@
-import { User } from "@/domain/entities/user.entity";
-import { IUserRepository } from "@/domain/repositories/user.repository";
-import JwtService from "@/infrastructure/external-services/auth/jwt.service";
+import { User } from '@/domain/entities/user.entity';
+import JwtService from '@/infrastructure/external-services/auth/jwt.service';
 import {
   LoginUseCase,
   AuthTokens,
-} from "@/application/use-cases/user/login.use-case";
-import UserRepository from "@/infrastructure/orm/repositories/user.prisma.repository";
-import PasswordService from "@/infrastructure/external-services/encryption/password.service";
+} from '@/application/use-cases/user/login.use-case';
+import UserRepository from '@/infrastructure/orm/repositories/user.prisma.repository';
+import PasswordService from '@/infrastructure/external-services/encryption/password.service';
 
 export default class AuthService {
   private loginUseCase: LoginUseCase;
@@ -18,7 +17,7 @@ export default class AuthService {
     this.loginUseCase = new LoginUseCase(
       userRepository,
       passwordService,
-      jwtService
+      jwtService,
     );
   }
 

@@ -1,6 +1,5 @@
-import { env } from "@/infrastructure/config/env.config";
-import mjml2html from "mjml";
-import { emailTheme } from "./theme.config";
+import { env } from '@/infrastructure/config/env.config';
+import mjml2html from 'mjml';
 
 export interface EmailTemplateResult {
   subject: string;
@@ -23,8 +22,6 @@ export abstract class EmailTemplate {
   }
 
   protected baseTemplate(content: string): string {
-    const theme = emailTheme;
-
     return mjml2html(`
       <mjml>
         <mj-head>
@@ -43,8 +40,8 @@ export abstract class EmailTemplate {
             <mj-column>
               <mj-text font-size="12px" color="#666666" align="center">
                 © ${new Date().getFullYear()} ${
-      env.vars.APP_NAME
-    }. Todos los derechos reservados.
+  env.vars.APP_NAME
+}. Todos los derechos reservados.
               </mj-text>
             </mj-column>
           </mj-section>

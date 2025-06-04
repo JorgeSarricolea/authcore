@@ -1,6 +1,6 @@
-import { OAuth2Client } from "google-auth-library";
-import { env } from "@/infrastructure/config/env.config";
-import AppException from "@/shared/utils/exception.util";
+import { OAuth2Client } from 'google-auth-library';
+import { env } from '@/infrastructure/config/env.config';
+import AppException from '@/shared/utils/exception.util';
 
 export interface GoogleUserInfo {
   id: string;
@@ -19,25 +19,25 @@ export default class GoogleOAuthService {
     this.oauth2Client = new OAuth2Client(
       env.vars.GOOGLE_CLIENT_ID,
       env.vars.GOOGLE_CLIENT_SECRET,
-      env.vars.GOOGLE_CALLBACK_URL
+      env.vars.GOOGLE_CALLBACK_URL,
     );
   }
 
   getAuthUrl(): string {
     return this.oauth2Client.generateAuthUrl({
-      access_type: "offline",
-      prompt: "consent",
+      access_type: 'offline',
+      prompt: 'consent',
       scope: [
-        "https://www.googleapis.com/auth/userinfo.profile",
-        "https://www.googleapis.com/auth/userinfo.email",
+        'https://www.googleapis.com/auth/userinfo.profile',
+        'https://www.googleapis.com/auth/userinfo.email',
       ],
       include_granted_scopes: true,
-      response_type: "code",
+      response_type: 'code',
     });
   }
 
   async getTokens(
-    code: string
+    code: string,
   ): Promise<{ access_token: string; refresh_token: string }> {
     try {
       const { tokens } = await this.oauth2Client.getToken(code);
@@ -45,30 +45,30 @@ export default class GoogleOAuthService {
         access_token: tokens.access_token!,
         refresh_token: tokens.refresh_token!,
       };
-    } catch (error) {
-      throw new AppException("Failed to get Google tokens", 400);
+    } catch {
+      throw new AppException('Failed to get Google tokens', 400);
     }
   }
 
   async getUserInfo(accessToken: string): Promise<GoogleUserInfo> {
     try {
       const response = await fetch(
-        "https://www.googleapis.com/oauth2/v2/userinfo",
+        'https://www.googleapis.com/oauth2/v2/userinfo',
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        }
+        },
       );
 
       if (!response.ok) {
-        throw new AppException("Failed to get Google user info", 400);
+        throw new AppException('Failed to get Google user info', 400);
       }
 
       const data = await response.json();
       return data as GoogleUserInfo;
-    } catch (error) {
-      throw new AppException("Failed to get Google user info", 400);
+    } catch {
+      throw new AppException('Failed to get Google user info', 400);
     }
   }
 }

@@ -1,6 +1,6 @@
-import { PrismaClient, Prisma } from "@prisma/client";
-import { IUserRepository } from "@/domain/repositories/user.repository";
-import { User } from "@/domain/entities/user.entity";
+import { PrismaClient, Prisma } from '@prisma/client';
+import { IUserRepository } from '@/domain/repositories/user.repository';
+import { User } from '@/domain/entities/user.entity';
 
 export default class UserRepository implements IUserRepository {
   private prisma: PrismaClient;
@@ -76,10 +76,9 @@ export default class UserRepository implements IUserRepository {
   }
 
   async update(id: string, data: Partial<User>): Promise<User> {
-    const { roles, ...updateData } = data;
     const user = await this.prisma.user.update({
       where: { id },
-      data: updateData,
+      data,
       include: { roles: true },
     });
     return this.mapToEntity(user);

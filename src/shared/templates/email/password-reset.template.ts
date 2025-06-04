@@ -14,10 +14,10 @@ export class PasswordResetEmailTemplate extends EmailTemplate {
       <mj-section padding-bottom="${theme.spacing.normal}">
         <mj-column>
           <mj-text font-size="${
-            theme.typography.fontSize.large
-          }" font-weight="bold" align="center" color="${
-      theme.colors.primary.main
-    }">
+  theme.typography.fontSize.large
+}" font-weight="bold" align="center" color="${
+  theme.colors.primary.main
+}">
             Restablecimiento de contraseña
           </mj-text>
           <mj-text align="center" padding-top="${theme.spacing.normal}">
@@ -27,31 +27,31 @@ export class PasswordResetEmailTemplate extends EmailTemplate {
             Tu código de verificación es:
           </mj-text>
           <mj-text font-size="${
-            theme.typography.fontSize.xlarge
-          }" font-weight="bold" align="center" color="${
-      theme.colors.primary.light
-    }" padding="${theme.spacing.small} ${theme.spacing.large}">
+  theme.typography.fontSize.xlarge
+}" font-weight="bold" align="center" color="${
+  theme.colors.primary.light
+}" padding="${theme.spacing.small} ${theme.spacing.large}">
             ${data.code}
           </mj-text>
           <mj-text align="center" padding-top="${theme.spacing.normal}">
             Haz clic en el botón para restablecer tu contraseña:
           </mj-text>
           <mj-button href="${this.buildUrl("/reset-password", {
-            code: data.code,
-            email: data.email,
-          })}" align="center" padding="${theme.spacing.normal}">
+    code: data.code,
+    email: data.email,
+  })}" align="center" padding="${theme.spacing.normal}">
             Restablecer contraseña
           </mj-button>
           <mj-text align="center" color="${
-            theme.colors.text.secondary
-          }" font-size="${theme.typography.fontSize.small}" padding-top="${
-      theme.spacing.normal
-    }">
+  theme.colors.text.secondary
+}" font-size="${theme.typography.fontSize.small}" padding-top="${
+  theme.spacing.normal
+}">
             Este código expirará en 1 hora.
           </mj-text>
           <mj-text align="center" color="${
-            theme.colors.text.secondary
-          }" font-size="${theme.typography.fontSize.small}">
+  theme.colors.text.secondary
+}" font-size="${theme.typography.fontSize.small}">
             Si no solicitaste este cambio, ignora este correo.
           </mj-text>
         </mj-column>
