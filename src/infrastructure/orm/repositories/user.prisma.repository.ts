@@ -31,6 +31,7 @@ export default class UserRepository implements IUserRepository {
         password: data.password,
         name: data.name,
         last_name: data.last_name,
+        google_id: data.google_id,
         email_verified: data.email_verified!,
         email_verification_code: data.email_verification_code,
         email_verification_expires: data.email_verification_expires,
